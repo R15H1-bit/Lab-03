@@ -36,7 +36,7 @@ def get_coords(city_name):
         return None, None
 
 
-def getweather():
+def getweather(city_name):
     lat, lon = get_coords(city_name)
     
     URL = "https://api.open-meteo.com/v1/forecast"
