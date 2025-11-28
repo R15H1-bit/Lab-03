@@ -8,7 +8,7 @@ st.title("Phase 3: LLM-Powered Activity Planner")
 
 key = st.secrets["key"]
 genai.configure(api_key=key)
-model = genai.GenerativeModel('gemini-pro')
+model = genai.GenerativeModel('gemini-2.5-pro')
 
 
 def weather(lat, lon):
