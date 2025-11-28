@@ -5,13 +5,11 @@ import requests
 st.set_page_config(page_title="Phase 3: LLM Generator", page_icon="🤖", layout="wide")
 st.title("Phase 3: LLM-Powered Activity Planner")
 
-try:
-    key = st.secrets["AIzaSyDzsv6WhpyXl5muGXvpyy0lFm-ccQQ-d4A"]
-    genai.configure(api_key=key)
-    model = genai.GenerativeModel('gemini-1.5-flash')
-except Exception:
-    st.error("Error: Could not configure Google Gemini API. Make sure your `secrets.toml` file is correct.")
-    st.stop()
+
+key = st.secrets["AIzaSyDzsv6WhpyXl5muGXvpyy0lFm-ccQQ-d4A"]
+genai.configure(api_key=key)
+model = genai.GenerativeModel('gemini-1.5-flash')
+
 
 def fetch_weather_summary(lat, lon):
     """Fetches a summary of the weather."""
