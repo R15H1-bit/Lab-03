@@ -54,8 +54,11 @@ def getweather(city_name):
         return f"Error retrieving weather: {e}"
 
 
+location = st.text_input("Enter a city for the chatbot conversation:", "Atlanta")
+
 if "chat_session" not in st.session_state:
-    weather = getweather(city_name)
+    st.session_state.current_city = location
+    weather = getweather(location)
     
     system_prompt = f"""
     You are a helpful and friendly weather chatbot.
