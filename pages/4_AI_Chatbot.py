@@ -55,7 +55,7 @@ def getweather(city_name):
 
 
 if "chat_session" not in st.session_state:
-    weather = getweather()
+    weather = getweather(city_name)
     
     system_prompt = f"""
     You are a helpful and friendly weather chatbot.
