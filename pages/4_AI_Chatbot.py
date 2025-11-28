@@ -13,7 +13,7 @@ except Exception:
     st.error("Error: Could not configure Google Gemini API.")
     st.stop()
 
-def get_coords(location):
+def get_coords(city_name):
     url = "https://geocoding-api.open-meteo.com/v1/search"
     params = {
         "name": city_name,
@@ -37,7 +37,7 @@ def get_coords(location):
 
 
 def getweather():
-    lat, lon = get_coords(location)
+    lat, lon = get_coords(city_name)
     
     URL = "https://api.open-meteo.com/v1/forecast"
     params = {
