@@ -13,7 +13,7 @@ except Exception:
     st.error("Error: Could not configure Google Gemini API.")
     st.stop()
 
-def get_coords(city_name):
+def get_coords(location):
     url = "https://geocoding-api.open-meteo.com/v1/search"
     params = {
         "name": city_name,
@@ -36,7 +36,7 @@ def get_coords(city_name):
         return None, None
 
 
-def getweather(location):
+def getweather():
     lat, lon = get_coords(location)
     
     URL = "https://api.open-meteo.com/v1/forecast"
@@ -55,7 +55,7 @@ def getweather(location):
 
 
 if "chat_session" not in st.session_state:
-    weather = getweather(location)
+    weather = getweather()
     
     system_prompt = f"""
     You are a helpful and friendly weather chatbot.
