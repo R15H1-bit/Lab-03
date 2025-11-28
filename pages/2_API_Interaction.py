@@ -30,7 +30,7 @@ def fetch_weather(lat, lon):
     }
     try:
         response = requests.get(URL, params=params)
-        response.raise_for_status() # Raises an error for bad responses
+        response.raise_for_status() 
         return response.json()
     
     except requests.exceptions.RequestException as e:
