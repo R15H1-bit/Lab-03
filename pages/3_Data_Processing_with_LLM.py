@@ -5,6 +5,27 @@ import requests
 st.set_page_config(page_title="Phase 3: LLM Generator", page_icon="🤖", layout="wide")
 st.title("Phase 3: LLM-Powered Activity Planner")
 
+def get_coords(city_name):
+    url = "https://geocoding-api.open-meteo.com/v1/search"
+    params = {
+        "name": city_name,
+        "count": 1,
+        "language": "en",
+        "format": "json"
+    }
+    try:
+        response = requests.get(url, params=params)
+        data = response.json()
+        
+        if "results" in data:
+            lat = data["results"][0]["latitude"]
+            lon = data["results"][0]["longitude"]
+            return lat, lon
+        else:
+            return None, None 
+    except Exception as e:
+        st.error(f"Can't find city coordinates, defaulting to NYC: {e}")
+        return None, None
 
 key = st.secrets["key"]
 genai.configure(api_key=key)
@@ -39,12 +60,19 @@ def weather(lat, lon):
 
 st.header("Step 1: Plan Your Activity")
 
-location_name = st.text_input("Enter a location name (e.g., 'Atlanta')", value="Atlanta")
+location = st.text_input("Enter a location name (e.g., 'Atlanta')", value="Atlanta")
 
-if location_name.lower() == "atlanta":
-    lat, lon = 33.7756, -84.3963
+if location:
+    lat, lon = get_coordinates(location)
+    
+    if lat is None or lon is None:
+        st.error(f"Could not find coordinates for '{location}'. Using default (NYC).")
+        lat, lon = 40.7128, -74.0060
+    else:
+        st.success(f"Found {location} at: {lat}, {lon}")
 else:
-    lat, lon = 40.7128, -74.0060 # Default to NYC
+     st.error(f"Could not find coordinates for '{location}'. Using default (NYC).")
+    lat, lon = 40.7128, -74.0060
 
 activity = st.text_input("What activity are you planning?", "a 5K run")
 
@@ -52,7 +80,7 @@ if st.button("Generate Activity Recommendation"):
     weather_data = weather(lat, lon)
     
     if weather_data:
-        st.subheader(f"Today's Weather for {location_name}:")
+        st.subheader(f"Today's Weather for {location}:")
         st.text(weather_data)
         
         prompt = f"""
