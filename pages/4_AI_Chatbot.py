@@ -13,8 +13,31 @@ except Exception:
     st.error("Error: Could not configure Google Gemini API.")
     st.stop()
 
-def getweather():
-    lat, lon = 33.7756, -84.3963
+def get_coords(city_name):
+    url = "https://geocoding-api.open-meteo.com/v1/search"
+    params = {
+        "name": city_name,
+        "count": 1,
+        "language": "en",
+        "format": "json"
+    }
+    try:
+        response = requests.get(url, params=params)
+        data = response.json()
+        
+        if "results" in data:
+            lat = data["results"][0]["latitude"]
+            lon = data["results"][0]["longitude"]
+            return lat, lon
+        else:
+            return None, None
+    except Exception as e:
+        st.error(f"Geocoding Error: {e}")
+        return None, None
+
+
+def getweather(location):
+    lat, lon = get_coords(location)
     
     URL = "https://api.open-meteo.com/v1/forecast"
     params = {
@@ -28,48 +51,42 @@ def getweather():
         response.raise_for_status()
         return f"Current weather data: {response.json().get('current', {})}"
     except Exception as e:
-        return f"Error fetching weather: {e}"
+        return f"Error retrieving weather: {e}"
 
 
 if "chat_session" not in st.session_state:
-    weather_context = get_weather_context()
+    weather = getweather()
     
     system_prompt = f"""
     You are a helpful and friendly weather chatbot.
     Use the following real-time data to answer the user's questions.
-    Do not mention you have this data unless it's needed to answer.
     
     REAL-TIME DATA:
     {weather_context}
     """
     
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-2.5-pro')
     st.session_state.chat_session = model.start_chat(
         history=[
             {"role": "user", "parts": [system_prompt]},
-            {"role": "model", "parts": ["Got it. I'm ready to answer questions about the current weather! What's up?"]}
+            {"role": "model", "parts": ["I'm ready to answer questions about the current weather! What's up?"]}
         ]
     )
 
 for message in st.session_state.chat_session.history:
-    # Don't show the initial system prompt
     if message.role != "user" or "REAL-TIME DATA" not in message.parts[0]:
         with st.chat_message(message.role):
             st.markdown(message.parts[0])
 
 if user_prompt := st.chat_input("Ask about the weather..."):
-    # Add user message to chat
     with st.chat_message("user"):
         st.markdown(user_prompt)
 
     try:
-        # Send message to Gemini
         response = st.session_state.chat_session.send_message(user_prompt)
         
-        # Display Gemini's response
         with st.chat_message("model"):
             st.markdown(response.text)
             
     except Exception as e:
         st.error(f"An error occurred: {e}")
-        st.info("This can happen due to rate limits or content safety filters.")
