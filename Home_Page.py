@@ -35,21 +35,21 @@ st.divider()
 st.header("Page Descriptions")
 st.write(""" 
 1.  **Home Page**: Select a page from the following to explore and visualize data
-    collected from a Star Wars API!
+    collected from a real-time weather data collection API!
 
-2.  **Phase 2 API:** This page fetches data from an external weather API. You can input
+2.  **Phase 2 API:** This page gets data from an external weather API. You can input
     any latitude and longitude to get the real-time temperature forecast,
     which is then displayed on an interactive chart.
 
 3.  **Phase 3 LLM Generator:**
     This page uses the weather API data and feeds it into the Google Gemini
-    LLM. Based on user inputs (like location and a desired activity), it
-    generates a specialized text, like a "go/no-go" recommendation.
+    LLM (model gemini-2.5-pro). Based on user inputs (like location and a desired activity), it
+    generates a specialized recommendation.
 
 4.  **Phase 4 LLM Chatbot:**
     This page features a fully interactive chatbot. It uses the same
-    real-time weather data to answer your questions, like "Is it a good
-    day to go for a run?" or "What should I wear today?".
+    real-time weather data to answer your questions as before. Some typical
+    questions may be: "Is it a good day to go for a run?" or "What should I wear today?".
     
 """)
 
