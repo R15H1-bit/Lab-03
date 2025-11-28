@@ -33,7 +33,6 @@ model = genai.GenerativeModel('gemini-2.5-pro')
 
 
 def weather(lat, lon):
-    """Fetches a summary of the weather."""
     URL = "https://api.open-meteo.com/v1/forecast"
     params = {
         "latitude": lat,
