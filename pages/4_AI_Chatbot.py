@@ -76,12 +76,6 @@ if "chat_session" not in st.session_state:
         ]
     )
 
-"""
-    for message in st.session_state.chat_session.history:
-    if message.role != "user" or "REAL-TIME DATA" not in message.parts[0]:
-        with st.chat_message(message.role):
-            st.markdown(message.parts[0])
-"""
 if user_prompt := st.chat_input("Ask about the weather..."):
     with st.chat_message("user"):
         st.markdown(user_prompt)
