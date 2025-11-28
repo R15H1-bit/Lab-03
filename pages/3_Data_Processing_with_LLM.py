@@ -63,7 +63,7 @@ st.header("Step 1: Plan Your Activity")
 location = st.text_input("Enter a location name (e.g., 'Atlanta')", value="Atlanta")
 
 if location:
-    lat, lon = get_coordinates(location)
+    lat, lon = get_coords(location)
     
     if lat is None or lon is None:
         st.error(f"Could not find coordinates for '{location}'. Using default (NYC).")
