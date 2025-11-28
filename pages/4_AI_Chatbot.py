@@ -7,15 +7,14 @@ st.title("Phase 4: Weather Chatbot")
 st.write("Ask me questions about the weather and your plans!")
 
 try:
-    GEMINI_API_KEY = st.secrets["AIzaSyDzsv6WhpyXl5muGXvpyy0lFm-ccQQ-d4A]
+    GEMINI_API_KEY = st.secrets["key"]
     genai.configure(api_key=GEMINI_API_KEY)
 except Exception:
-    st.error("Error: Could not configure Google Gemini API. Make sure your `secrets.toml` file is correct.")
+    st.error("Error: Could not configure Google Gemini API.")
     st.stop()
 
-def get_weather_context():
-    """Fetches weather data to be used as context for the chatbot."""
-    lat, lon = 33.7756, -84.3963 # Georgia Tech
+def getweather():
+    lat, lon = 33.7756, -84.3963
     
     URL = "https://api.open-meteo.com/v1/forecast"
     params = {
