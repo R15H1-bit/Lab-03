@@ -71,7 +71,7 @@ if st.button("Generate Activity Recommendation"):
         try:
             with st.spinner("Gemini is thinking..."):
                 response = model.generate_content(prompt)
-                print(response.txt)
+                print(response)
                 st.markdown(response.text)
         except Exception as e:
             st.error(f"An error occurred with the LLM: {e}")
