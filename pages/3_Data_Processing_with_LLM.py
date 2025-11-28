@@ -6,12 +6,12 @@ st.set_page_config(page_title="Phase 3: LLM Generator", page_icon="🤖", layout
 st.title("Phase 3: LLM-Powered Activity Planner")
 
 
-key = st.secrets["AIzaSyDzsv6WhpyXl5muGXvpyy0lFm-ccQQ-d4A"]
+key = st.secrets["key"]
 genai.configure(api_key=key)
 model = genai.GenerativeModel('gemini-1.5-flash')
 
 
-def fetch_weather_summary(lat, lon):
+def weather(lat, lon):
     """Fetches a summary of the weather."""
     URL = "https://api.open-meteo.com/v1/forecast"
     params = {
@@ -49,7 +49,7 @@ else:
 activity = st.text_input("What activity are you planning?", "a 5K run")
 
 if st.button("Generate Activity Recommendation"):
-    weather_data = fetch_weather_summary(lat, lon)
+    weather_data = weather(lat, lon)
     
     if weather_data:
         st.subheader(f"Today's Weather for {location_name}:")
