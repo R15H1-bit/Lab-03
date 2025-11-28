@@ -65,7 +65,7 @@ if "chat_session" not in st.session_state:
     Use the following real-time data to answer the user's questions.
     
     REAL-TIME DATA:
-    {weather_context}
+    {weather}
     """
     
     model = genai.GenerativeModel('gemini-2.5-pro')
