@@ -71,7 +71,7 @@ if location:
     else:
         st.success(f"Found {location} at: {lat}, {lon}")
 else:
-     st.error(f"Could not find coordinates for '{location}'. Using default (NYC).")
+    st.error(f"Could not find coordinates for '{location}'. Using default (NYC).")
     lat, lon = 40.7128, -74.0060
 
 activity = st.text_input("What activity are you planning?", "a 5K run")
